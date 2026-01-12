@@ -242,3 +242,17 @@ button, input{ font: inherit; }
   font-size: 12px;
   line-height: 1.55;
 }
+.stampIcon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: rgba(233,242,255,.85);
+}
+
+.stampLabel{
+  font-size: 11px;
+  line-height: 1.2;
+  text-align:center;
+  color: rgba(169,183,209,.95);
+}
+
