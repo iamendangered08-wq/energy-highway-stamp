@@ -1,5 +1,5 @@
 "use client";
-
+import { getStampMeta } from "../../lib/stampMeta";
 import { useEffect, useMemo, useState } from "react";
 import { TOTAL, loadState, countDone, resetStamps } from "../../lib/stamps";
 
@@ -192,4 +192,5 @@ export default function MainPage() {
     </>
   );
 }
+
 
