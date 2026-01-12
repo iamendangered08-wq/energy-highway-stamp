@@ -151,9 +151,9 @@ button, input{ font: inherit; }
 }
 
 .grid{
-  display:grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr; /* 세로 1열 */
+  gap: 12px;
   margin-top: 14px;
 }
 .stamp{
@@ -255,4 +255,5 @@ button, input{ font: inherit; }
   text-align:center;
   color: rgba(169,183,209,.95);
 }
+
 
