@@ -69,7 +69,7 @@ export default function MainPage() {
           </h1>
           <p className="p">
             전시장 곳곳의 QR을 스캔해 7개 스탬프를 모아주세요.
-            완주하면 완주 이미지와 함께 이벤트 응모가 가능합니다.
+            미션을 완주하면 이벤트 존에서 선물을 드립니다.
           </p>
 
           <div className="ctaRow">
@@ -147,7 +147,7 @@ export default function MainPage() {
                   </div>
                   <div style={{ color: "rgba(233,242,255,.88)", marginTop: 6, lineHeight: 1.6 }}>
                     축하합니다. 에너지고속도로 주행을 완료했습니다.<br />
-                    아래 정보를 입력하면 이벤트 응모가 완료됩니다.
+                    아래 정보를 입력하면 스탬프 투어가 완료됩니다.
                   </div>
                   <div className="lane" aria-hidden="true" />
                 </div>
@@ -192,3 +192,4 @@ export default function MainPage() {
     </>
   );
 }
+
