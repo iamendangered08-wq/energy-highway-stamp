@@ -113,17 +113,37 @@ export default function MainPage() {
               </div>
 
               <div className="grid" aria-label="stamp grid">
-                {Array.from({ length: TOTAL }).map((_, idx) => {
-                  const n = idx + 1;
-                  const ok = !!state[n];
-                  return (
-                    <div key={n} className={`stamp ${ok ? "done" : ""}`}>
-                      <div className="num">#{n}</div>
-                      <div className="check">{ok ? "✓" : ""}</div>
-                    </div>
-                  );
-                })}
-              </div>
+  {Array.from({ length: TOTAL }).map((_, idx) => {
+    const n = idx + 1;
+    const ok = !!state[n];
+    const meta = getStampMeta(n);
+
+    return (
+      <button
+        key={n}
+        type="button"
+        className={`stamp ${ok ? "done" : ""}`}
+        onClick={() => openScanner(n)}
+        style={{ cursor: "pointer" }}
+        aria-label={`${n}번 스탬프 스캔`}
+      >
+        <div className="num">#{n}</div>
+
+        {/* 아이콘 */}
+        <div
+          className="stampIcon"
+          dangerouslySetInnerHTML={{ __html: meta?.icon({ size: 22 }) ?? "" }}
+        />
+
+        {/* 라벨 */}
+        <div className="stampLabel">{meta?.label ?? ""}</div>
+
+        {/* 완료 체크 (원하면 위치/디자인 바꿔줄 수 있어) */}
+        <div className="check">{ok ? "✓" : ""}</div>
+      </button>
+    );
+  })}
+</div>
 
               <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
                 <button
@@ -192,5 +212,6 @@ export default function MainPage() {
     </>
   );
 }
+
 
 
