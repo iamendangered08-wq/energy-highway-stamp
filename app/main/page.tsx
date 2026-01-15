@@ -1,17 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import { getStampMeta } from "../../lib/stampMeta";
 
-...
-
-const meta = getStampMeta(n);
-
-...
-
-{meta && (
-  <div className="stampIcon">
-    <Image src={meta.iconPath} alt={meta.label} width={28} height={28} />
-  </div>
-)}
+// ⚠️ 아래 것들은 너 프로젝트에 맞게 실제 import로 연결되어 있어야 해.
+// 예시(너 파일에 이미 있으면 import 필요 없음):
+// import { TOTAL, countDone, loadState, resetStamps } from "../../lib/stamps";
+// import { openScanner } from "../../lib/scanner";
 
 export default function MainPage() {
   const [state, setState] = useState<Record<number, { at: string }>>({});
@@ -113,37 +109,38 @@ export default function MainPage() {
               </div>
 
               <div className="grid" aria-label="stamp grid">
-  {Array.from({ length: TOTAL }).map((_, idx) => {
-    const n = idx + 1;
-    const ok = !!state[n];
-    const meta = getStampMeta(n);
+                {Array.from({ length: TOTAL }).map((_, idx) => {
+                  const n = idx + 1;
+                  const ok = !!state[n];
+                  const meta = getStampMeta(n);
 
-    return (
-      <button
-        key={n}
-        type="button"
-        className={`stamp ${ok ? "done" : ""}`}
-        onClick={() => openScanner(n)}
-        style={{ cursor: "pointer" }}
-        aria-label={`${n}번 스탬프 스캔`}
-      >
-        <div className="num">#{n}</div>
+                  return (
+                    <button
+                      key={n}
+                      type="button"
+                      className={`stamp ${ok ? "done" : ""}`}
+                      onClick={() => openScanner(n)}
+                      style={{ cursor: "pointer" }}
+                      aria-label={`${n}번 스탬프 스캔`}
+                    >
+                      <div className="num">#{n}</div>
 
-       {/* 아이콘 */}
-{meta && (
-  <div className="stampIcon">
-    <Image src={meta.iconPath} alt={meta.label} width={28} height={28} />
-  </div>
-)}
-        {/* 라벨 */}
-        <div className="stampLabel">{meta?.label ?? ""}</div>
+                      {/* 아이콘 */}
+                      {meta && (
+                        <div className="stampIcon">
+                          <Image src={meta.iconPath} alt={meta.label} width={28} height={28} />
+                        </div>
+                      )}
 
-        {/* 완료 체크 (원하면 위치/디자인 바꿔줄 수 있어) */}
-        <div className="check">{ok ? "✓" : ""}</div>
-      </button>
-    );
-  })}
-</div>
+                      {/* 라벨 */}
+                      <div className="stampLabel">{meta?.label ?? ""}</div>
+
+                      {/* 완료 체크 */}
+                      <div className="check">{ok ? "✓" : ""}</div>
+                    </button>
+                  );
+                })}
+              </div>
 
               <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
                 <button
@@ -212,9 +209,3 @@ export default function MainPage() {
     </>
   );
 }
-
-
-
-
-
-
