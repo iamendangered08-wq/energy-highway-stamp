@@ -4,19 +4,64 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { getStampMeta } from "../../lib/stampMeta";
 
-// ⚠️ 아래 것들은 너 프로젝트에 맞게 실제 import로 연결되어 있어야 해.
-// 예시(너 파일에 이미 있으면 import 필요 없음):
-// import { TOTAL, countDone, loadState, resetStamps } from "../../lib/stamps";
-// import { openScanner } from "../../lib/scanner";
+type StampState = Record<number, { at: string }>;
+
+const TOTAL = 7;
+const STORAGE_KEY = "energy_highway_stamp_state_v1";
+
+function loadState(): StampState {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") return parsed as StampState;
+    return {};
+  } catch {
+    return {};
+  }
+}
+
+function saveState(state: StampState) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch {
+    // ignore
+  }
+}
+
+function resetStamps() {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+function countDone(state: StampState) {
+  return Object.keys(state).length;
+}
+
+function openScanner(n: number) {
+  // 스탬프 클릭 시 해당 스캔 페이지로 이동
+  window.location.href = `/stamp/${n}`;
+}
 
 export default function MainPage() {
-  const [state, setState] = useState<Record<number, { at: string }>>({});
+  const [state, setState] = useState<StampState>({});
   const done = useMemo(() => countDone(state), [state]);
   const isComplete = done === TOTAL;
 
   useEffect(() => {
     setState(loadState());
   }, []);
+
+  // state가 바뀔 때마다 저장 (스탬프 진행상황 유지)
+  useEffect(() => {
+    saveState(state);
+  }, [state]);
 
   const barW = Math.round((done / TOTAL) * 100);
 
@@ -81,89 +126,7 @@ export default function MainPage() {
         <div className="container">
           <div className="card">
             <div className="cardInner">
-              <div style={{ fontWeight: 900, marginBottom: 8, letterSpacing: "-.2px" }}>
-                THEME
-              </div>
-              <div style={{ color: "rgba(233,242,255,.9)", lineHeight: 1.65 }}>
-                <b>Driving the energy highway</b> — 에너지고속도로를 달리며,
-                전력 산업의 패러다임을 바꾸는 여정에 함께하세요.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="stamp" className="section">
-        <div className="container">
-          <div className="card">
-            <div className="cardInner">
-              <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-                <div style={{ fontWeight: 900, letterSpacing: "-.2px" }}>STAMP TOUR</div>
-                <div style={{ color: "rgba(233,242,255,.85)" }}>
-                  진행: <b>{done}/{TOTAL}</b>
-                </div>
-              </div>
-
-              <div className="progress" aria-label="progress">
-                <div className="bar" style={{ width: `${barW}%` }} />
-              </div>
-
-              <div className="grid" aria-label="stamp grid">
-                {Array.from({ length: TOTAL }).map((_, idx) => {
-                  const n = idx + 1;
-                  const ok = !!state[n];
-                  const meta = getStampMeta(n);
-
-                  return (
-                    <button
-                      key={n}
-                      type="button"
-                      className={`stamp ${ok ? "done" : ""}`}
-                      onClick={() => openScanner(n)}
-                      style={{ cursor: "pointer" }}
-                      aria-label={`${n}번 스탬프 스캔`}
-                    >
-                      <div className="num">#{n}</div>
-
-                      {/* 아이콘 */}
-                      {meta && (
-                        <div className="stampIcon">
-                          <Image src={meta.iconPath} alt={meta.label} width={28} height={28} />
-                        </div>
-                      )}
-
-                      {/* 라벨 */}
-                      <div className="stampLabel">{meta?.label ?? ""}</div>
-
-                      {/* 완료 체크 */}
-                      <div className="check">{ok ? "✓" : ""}</div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
-                <button
-                  className="btn"
-                  onClick={() => {
-                    resetStamps();
-                    setState(loadState());
-                  }}
-                >
-                  초기화
-                </button>
-                <div style={{ color: "rgba(169,183,209,.92)", fontSize: 13, lineHeight: 1.6 }}>
-                  QR은 <b>/stamp/1 ~ /stamp/7</b> 페이지로 연결하면 됩니다.
-                </div>
-              </div>
-
-              {isComplete && (
-                <div className="completeBanner" style={{ marginTop: 16 }}>
-                  <div style={{ fontWeight: 1000, letterSpacing: "-.2px", fontSize: 18 }}>
-                    완주! DRIVING THE ENERGY HIGHWAY
-                  </div>
-                  <div style={{ color: "rgba(233,242,255,.88)", marginTop: 6, lineHeight: 1.6 }}>
-                    축하합니다. 에너지고속도로 질주를 완료했습니다.<br />
+              <div style={{ fontWeight: 900, marg주했습니다.<br />
                     아래 정보를 입력하면 스탬프 투어가 완료됩니다.
                   </div>
                   <div className="lane" aria-hidden="true" />
@@ -171,7 +134,7 @@ export default function MainPage() {
               )}
 
               <form className="form" onSubmit={submit}>
-                <div className="label">회사명
+                <div className="label">소속
                   <input className="input" name="company" required placeholder="예: LS ELECTRIC" disabled={!isComplete}/>
                 </div>
                 <div className="label">이름
@@ -193,7 +156,6 @@ export default function MainPage() {
 
                 <div className="small">
                   · 스탬프는 이 기기(브라우저)에 저장됩니다. 다른 기기에서는 진행 현황이 이어지지 않습니다.<br/>
-                  · 제출 정보는 이벤트 운영 목적으로만 사용되도록 안내 문구를 현장 정책에 맞게 조정하세요.
                 </div>
               </form>
             </div>
@@ -203,7 +165,7 @@ export default function MainPage() {
 
       <div className="section" style={{ paddingBottom: 60 }}>
         <div className="container" style={{ color: "rgba(169,183,209,.92)", fontSize: 12, lineHeight: 1.7 }}>
-          © LS ELECTRIC — Driving the Energy Highway (Event Stamp Tour)
+          © LS ELECTRIC — Driving the Energy Highway (Stamp Tour Event)
         </div>
       </div>
     </>
