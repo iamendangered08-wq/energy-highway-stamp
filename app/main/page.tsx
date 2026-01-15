@@ -91,8 +91,6 @@ export default function MainPage() {
               <div style={{ color: "rgba(233,242,255,.9)", lineHeight: 1.65 }}>
                 <b>Driving the energy highway</b> — 에너지고속도로를 달리며,
                 전력 산업의 패러다임을 바꾸는 여정에 함께하세요.
-                <br />
-                (여기 섹션은 전시 콘텐츠에 맞춰 3~5개 카드로 확장하면 링크 사이트 느낌이 더 살아납니다)
               </div>
             </div>
           </div>
@@ -168,7 +166,7 @@ export default function MainPage() {
                     완주! DRIVING THE ENERGY HIGHWAY
                   </div>
                   <div style={{ color: "rgba(233,242,255,.88)", marginTop: 6, lineHeight: 1.6 }}>
-                    축하합니다. 에너지고속도로 주행을 완료했습니다.<br />
+                    축하합니다. 에너지고속도로 질주를 완료했습니다.<br />
                     아래 정보를 입력하면 스탬프 투어가 완료됩니다.
                   </div>
                   <div className="lane" aria-hidden="true" />
@@ -183,7 +181,7 @@ export default function MainPage() {
                   <input className="input" name="name" required placeholder="예: 홍길동" disabled={!isComplete}/>
                 </div>
                 <div className="label">직책
-                  <input className="input" name="title" required placeholder="예: 대리 / 과장 / 책임" disabled={!isComplete}/>
+                  <input className="input" name="title" required placeholder="예: 매니저 / 과장 / 책임" disabled={!isComplete}/>
                 </div>
                 <div className="label">핸드폰번호
                   <input className="input" name="phone" required placeholder="010-1234-5678" inputMode="tel" disabled={!isComplete}/>
@@ -193,7 +191,7 @@ export default function MainPage() {
                 </div>
 
                 <button className="btn btnPrimary" type="submit" disabled={!isComplete}>
-                  응모 제출
+                  제출
                 </button>
 
                 <div className="small">
@@ -208,12 +206,13 @@ export default function MainPage() {
 
       <div className="section" style={{ paddingBottom: 60 }}>
         <div className="container" style={{ color: "rgba(169,183,209,.92)", fontSize: 12, lineHeight: 1.7 }}>
-          © LS ELECTRIC — Driving the energy highway (Event Stamp Tour)
+          © LS ELECTRIC — Driving the Energy Highway (Event Stamp Tour)
         </div>
       </div>
     </>
   );
 }
+
 
 
 
