@@ -131,12 +131,12 @@ export default function MainPage() {
       >
         <div className="num">#{n}</div>
 
-        {/* 아이콘 */}
-        <div
-          className="stampIcon"
-          dangerouslySetInnerHTML={{ __html: meta?.icon({ size: 22 }) ?? "" }}
-        />
-
+       {/* 아이콘 */}
+{meta && (
+  <div className="stampIcon">
+    <Image src={meta.iconPath} alt={meta.label} width={28} height={28} />
+  </div>
+)}
         {/* 라벨 */}
         <div className="stampLabel">{meta?.label ?? ""}</div>
 
@@ -214,6 +214,7 @@ export default function MainPage() {
     </>
   );
 }
+
 
 
 
