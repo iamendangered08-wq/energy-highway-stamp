@@ -1,15 +1,17 @@
-"use client";
+import Image from "next/image";
 import { getStampMeta } from "../../lib/stampMeta";
-import { useEffect, useMemo, useState } from "react";
-import { TOTAL, loadState, countDone, resetStamps } from "../../lib/stamps";
 
-type FormData = {
-  company: string;
-  name: string;
-  title: string;
-  phone: string;
-  email: string;
-};
+...
+
+const meta = getStampMeta(n);
+
+...
+
+{meta && (
+  <div className="stampIcon">
+    <Image src={meta.iconPath} alt={meta.label} width={28} height={28} />
+  </div>
+)}
 
 export default function MainPage() {
   const [state, setState] = useState<Record<number, { at: string }>>({});
@@ -212,6 +214,7 @@ export default function MainPage() {
     </>
   );
 }
+
 
 
 
